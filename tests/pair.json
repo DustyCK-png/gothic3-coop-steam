@@ -1,0 +1,13 @@
+{
+  "test": "two real Gothic 3 clients over loopback",
+  "status": "passed",
+  "host_remote": "REMOTE id=2 name=client world=91408586 same_world=1 age_ms=96 pos=87984.9,5145.6,-10197.5 puppet=1 puppet_pos=87984.9,5145.6,-10197.5",
+  "client_remote": "REMOTE id=1 name=host world=91408586 same_world=1 age_ms=34 pos=87984.9,5145.6,-10197.5 puppet=1 puppet_pos=87984.9,5145.6,-10197.5",
+  "movement_errors_cm": [
+    9.2,
+    2.5,
+    7.9,
+    24.0
+  ],
+  "protected_saves_unchanged": true
+}

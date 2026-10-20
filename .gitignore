@@ -1,0 +1,12 @@
+vendor/
+build/
+steam-build/
+isolation-build/
+local/
+test-host/
+test-client/
+steam-tests/
+downloads/
+dist/
+SteamLink/
+*.log

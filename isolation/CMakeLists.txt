@@ -1,0 +1,5 @@
+cmake_minimum_required(VERSION 3.24)
+project(G3TestIsolation LANGUAGES CXX)
+add_library(g3shell SHARED shell.cpp shell.def)
+target_compile_options(g3shell PRIVATE /utf-8)
+add_executable(IsolationProbe probe.cpp)

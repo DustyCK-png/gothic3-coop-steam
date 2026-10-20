@@ -1,0 +1,31 @@
+diff --git a/src/qa.cpp b/src/qa.cpp
+index 591f97f..dc16c83 100644
+--- a/src/qa.cpp
++++ b/src/qa.cpp
+@@ -182,12 +182,24 @@ bool Focus(unsigned id, const char* caption, const char* prompt = nullptr)
+             if (!button) continue;
+             if (button->GetDlgCtrlID() != id) button = button->GetDlgItem(id);
+             if (!button || !button->IsWindowVisible() || !button->IsWindowEnabled()) continue;
+-            if (std::strcmp(button->GetWindowTextA().GetAnsiText().GetText(), caption)) continue;
++            const bCUnicodeString unicodeCaption = button->GetWindowTextA();
++            const bCString captionStorage = unicodeCaption.GetAnsiText();
++            const char* visibleCaption = captionStorage.GetText();
++            // Russian Steam edition uses Windows-1251 for the engine's ANSI UI.
++            const bool russianNew = id == 20571 && !std::wcscmp(unicodeCaption.GetText(), L"\u041d\u043e\u0432\u0430\u044f \u0438\u0433\u0440\u0430");
++            const bool russianYes = id == 20711 && !std::wcscmp(unicodeCaption.GetText(), L"\u0414\u0430");
++            if (std::strcmp(visibleCaption, caption) && !russianNew && !russianYes) continue;
+             CFFGFCWnd* parent = button->GetParentWindow();
+             if (!parent) return false;
+             if (prompt) {
+                 CFFGFCWnd* question = parent->GetDlgItem(20709);
+-                if (!question || !std::strstr(question->GetWindowTextA().GetAnsiText().GetText(), prompt)) continue;
++                if (!question) continue;
++                const bCUnicodeString unicodeQuestion = question->GetWindowTextA();
++                const bCString questionStorage = unicodeQuestion.GetAnsiText();
++                const char* questionText = questionStorage.GetText();
++                const bool russianNewPrompt = russianYes && newGamePending &&
++                    std::wcsstr(unicodeQuestion.GetText(), L"\u043d\u043e\u0432");
++                if (!std::strstr(questionText, prompt) && !russianNewPrompt) continue;
+             }
+             button->SetFocus();
+             sprintf_s(line, "MENU_FOCUS id=%u focused=%d text=%s", id, button->HasFocus(), caption);

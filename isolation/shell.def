@@ -1,0 +1,3 @@
+LIBRARY g3shell
+EXPORTS
+    SHGetFolderPathA=IsolatedFolderPathA
